@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     'orders',
     'catalog',
     'users',
-    'payments',
     'promotions',
     'api',
     #drf
