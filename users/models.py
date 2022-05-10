@@ -14,14 +14,14 @@ class UserManager(BaseUserManager):
         return user
 
     def create_superuser(self, email, password=None, **kwargs):
-        user = self.create_user(email=email)
+        user = self.create_user(email=email, password=password, **kwargs)
         user.is_staff = True
         user.is_superuser = True
         user.save(using = self._db)
         return user
 
 
-class User(AbstractBaseUser, BaseModel, PermissionsMixin):
+class User(AbstractBaseUser, PermissionsMixin):
     email = models.CharField(max_length=50, verbose_name="Адрес электронной почты.", unique = True)
     full_name = models.CharField(max_length = 100, verbose_name = "ФИО пользователя.")
     is_staff = models.BooleanField(default=False)

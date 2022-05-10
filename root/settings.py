@@ -37,12 +37,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    #apps
     'base',
     'orders',
     'catalog',
     'users',
     'payments',
     'promotions',
+    'api',
+    #drf
+    'rest_framework',
     'drf_yasg',
 ]
 
@@ -123,6 +127,8 @@ USE_I18N = True
 
 USE_TZ = True
 
+MEDIA_ROOT = '/uploads/'
+MEDIA_URL = '/media/'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
@@ -135,3 +141,11 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'users.User'
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+        'rest_framework.permissions.DjangoModelPermissions',
+        # 'base.permissions.IsOwnerOrReadOnly'
+    )
+}
