@@ -1,6 +1,7 @@
 from django.db import models
 from base.models import BaseModel
 from orders.models import Order
+from django.conf import settings
 
 class Product(BaseModel):
     name = models.CharField(max_length=50)
@@ -27,6 +28,7 @@ class ProductUnit(BaseModel):
 class ProductOnOrder(models.Model):
     product = models.ForeignKey(ProductUnit, on_delete=models.CASCADE, related_name="products")
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name="products")
+    qty = models.PositiveSmallIntegerField()
 
 class Stock(models.Model):
     product = models.OneToOneField(ProductUnit, on_delete=models.CASCADE)
@@ -38,8 +40,8 @@ class Stock(models.Model):
     
 class Media(BaseModel):
     product = models.ForeignKey(ProductUnit, on_delete=models.CASCADE)
-    img_url = models.ImageField(unique=False, null=False, blank=False)
-    alt_text = models.CharField(max_length=60)
+    img_url = models.URLField(unique=False, null=False, blank=False)
+    alt_text = models.CharField(max_length=140)
 
 class Category(BaseModel):
     name = models.CharField(max_length=50)

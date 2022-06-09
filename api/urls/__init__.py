@@ -7,4 +7,5 @@ app_name = "api"
 urlpatterns = [
     path("auth/", include("api.urls.users", namespace="users")),
     path("products/", include("api.urls.products", namespace="products")),
+    path("oders/", include("api.urls.orders", namespace="orders"))
 ]

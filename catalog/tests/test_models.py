@@ -31,6 +31,7 @@ class OrderTestCase(TestCase):
         )
         self.stock = Stock.objects.create(
             product=self.product_unit,
+            units_remain = 5
         )
         self.order = Order.objects.create( 
             customer=self.user,
@@ -40,6 +41,15 @@ class OrderTestCase(TestCase):
             product=self.product_unit,
             order=self.order,
         )
+    
+    def test_category(self):
+        assert self.category == "T-Shirt"
+    
+    def test_brand(self):
+        assert self.brand == "ASOS"
+
+    def test_total_amount(self):
+        assert self.order.order_payment == 1490
         
 
         

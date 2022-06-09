@@ -6,9 +6,8 @@ from catalog.views import ProductUnitViewSet
 app_name = 'products'
 
 router = DefaultRouter()
-router.register("product", ProductViewSet, basename="users")
-router.register("product_sku", ProductUnitViewSet, basename="users")
+router.register("product", ProductViewSet, basename="product")
+router.register("product_sku", ProductUnitViewSet, basename="product-unit")
 
-urlpatterns = []
-urlpatterns += router.urls
+urlpatterns = router.urls
 

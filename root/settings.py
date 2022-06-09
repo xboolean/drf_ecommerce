@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'api',
     #drf
     'rest_framework',
+    'rest_framework.authtoken',
     'drf_yasg',
 ]
 
@@ -126,8 +127,8 @@ USE_I18N = True
 
 USE_TZ = True
 
-MEDIA_ROOT = '/uploads/'
-MEDIA_URL = '/media/'
+MEDIA_ROOT = 'uploads/'
+MEDIA_URL = 'media/'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
@@ -144,7 +145,7 @@ AUTH_USER_MODEL = 'users.User'
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
-        'rest_framework.permissions.DjangoModelPermissions',
+        # 'rest_framework.permissions.DjangoModelPermissions',
         # 'base.permissions.IsOwnerOrReadOnly'
     )
 }

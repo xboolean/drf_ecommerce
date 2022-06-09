@@ -6,6 +6,6 @@ from .permissions import UsersPermission
 
 
 class UserViewSet(ModelViewSet):
-    permissions_class = [UsersPermission]
+    permissions_classes = [UsersPermission]
     serializer_class = UserSerializer
     queryset = User.objects.all()
