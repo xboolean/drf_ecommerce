@@ -3,7 +3,7 @@ from .models import User
 from rest_framework.serializers import ModelSerializer
 from django.contrib.auth import authenticate
 
-class RegistrationSerializer(ModelSerializer):
+class RegisterSerializer(ModelSerializer):
     password = serializers.CharField(max_length=128, min_length=8, write_only=True)
 
     class Meta:
@@ -22,6 +22,10 @@ class LoginSerializer(ModelSerializer):
         password = data.get('password', None)
         user = authenticate(username=email, password=password)
         return user
+
+class PasswordSerializers(serializers.Serializer):
+    old_password = serializers.CharField(required=True)
+    new_password = serializers.CharField(required=True)
 
 class UserSerializer(ModelSerializer):
     class Meta:

@@ -15,7 +15,7 @@ class Product(BaseModel):
         return self.name
     
 class ProductUnit(BaseModel):
-    sku = models.CharField(max_length=8)
+    sku = models.CharField(max_length=8, unique=True)
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='products')
     order = models.ManyToManyField(Order, through="ProductOnOrder")
     sale_price = models.PositiveSmallIntegerField(null=True, blank=True)
@@ -29,9 +29,10 @@ class ProductOnOrder(models.Model):
     product = models.ForeignKey(ProductUnit, on_delete=models.CASCADE, related_name="products")
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name="products")
     qty = models.PositiveSmallIntegerField()
+    order_price = models.IntegerField()
 
 class Stock(models.Model):
-    product = models.OneToOneField(ProductUnit, on_delete=models.CASCADE)
+    product = models.OneToOneField(ProductUnit, on_delete=models.CASCADE, unique=True)
     units_remain = models.PositiveSmallIntegerField(default=0)
     units_sold = models.PositiveSmallIntegerField(default=0)
 
