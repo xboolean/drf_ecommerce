@@ -7,8 +7,8 @@ class Product(BaseModel):
     name = models.CharField(max_length=50)
     slug = models.SlugField()
     description = models.TextField()
-    brand = models.ForeignKey("Brand", on_delete=models.CASCADE)
-    category = models.ForeignKey("Category", on_delete=models.CASCADE)
+    brand = models.ForeignKey("Brand", related_name="products", on_delete=models.CASCADE)
+    category = models.ForeignKey("Category", related_name="products", on_delete=models.CASCADE)
     is_active = models.BooleanField(default=True)
 
     def __str__(self):
@@ -30,6 +30,15 @@ class ProductOnOrder(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name="products")
     qty = models.PositiveSmallIntegerField()
     order_price = models.IntegerField()
+
+    @property
+    def order_row_price(self):
+        return self.product__store_price * self.qty
+    
+    def save(self, *args, **kwargs):
+        if not self.product:
+            self.order_price = self.order_row_price
+        super.save(*args, **kwargs)
 
 class Stock(models.Model):
     product = models.OneToOneField(ProductUnit, on_delete=models.CASCADE, unique=True)

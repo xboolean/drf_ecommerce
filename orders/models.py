@@ -30,11 +30,11 @@ class Order(BaseModel):
     payment_status = models.CharField(max_length=20, choices=PAYMENT_STATUS)
 
     def __str__(self):
-        return str(self.key)
+        return self.key
 
-    # def total_order_price(self):
-        # print(self.products.aggregate(Sum('product__store_price')))
-        # return self.products.aggregate(Sum('product__store_price')) #total_price=Sum('product__store_price'))
+    def total_order_price(self):
+        print(self.products.aggregate(Sum('product__store_price')))
+        return self.products.aggregate(Sum('product__store_price')) #total_price=Sum('product__store_price'))
     
     def save(self, *args, **kwargs):
         if not self.key:
@@ -43,5 +43,5 @@ class Order(BaseModel):
     
     def get_item_quantity(self):
         order_id = Order.objects.filter(key=self.key)
-
+        
         return len(self.products)
