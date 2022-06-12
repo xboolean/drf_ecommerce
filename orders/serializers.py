@@ -11,7 +11,7 @@ class CustomerOrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
         fields = '__all__'
-        read_only_fields = ('customer', 'key', 'order_status', 'order_price', 'payment_status')
+        read_only_fields = ('customer', 'qty', 'key', 'order_status', 'order_price', 'payment_status')
 
     def create(self, validated_data):
         request = self.context.get('request')

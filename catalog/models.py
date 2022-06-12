@@ -33,12 +33,12 @@ class ProductOnOrder(models.Model):
 
     @property
     def order_row_price(self):
-        return self.product__store_price * self.qty
+        return self.product.store_price * self.qty
     
     def save(self, *args, **kwargs):
-        if not self.product:
-            self.order_price = self.order_row_price
-        super.save(*args, **kwargs)
+        # if not self.product:
+        self.order_price = self.order_row_price
+        super().save(*args, **kwargs)
 
 class Stock(models.Model):
     product = models.OneToOneField(ProductUnit, on_delete=models.CASCADE, unique=True)

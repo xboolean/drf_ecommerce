@@ -12,9 +12,10 @@ PAYMENT_STATUS = (
 )
 
 ORDER_STATUS = (
-    (1, 'gathering'),
-    (2, 'shipping'),
-    (3, 'shipped'),
+    (1, 'pending'),
+    (2, 'gathering'),
+    (3, 'shipping'),
+    (4, 'shipped'),
 )
 
 def generate_order_key():
@@ -26,22 +27,26 @@ class Order(BaseModel):
     key = models.CharField(max_length=6, unique=True)
     customer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="orders")
     order_price = models.IntegerField(blank=True, null=True)
-    order_status = models.CharField(max_length=30, choices=ORDER_STATUS)
+    order_status = models.CharField(max_length=30, choices=ORDER_STATUS, default=1)
     payment_status = models.CharField(max_length=20, choices=PAYMENT_STATUS)
 
     def __str__(self):
         return self.key
 
-    def total_order_price(self):
-        print(self.products.aggregate(Sum('product__store_price')))
-        return self.products.aggregate(Sum('product__store_price')) #total_price=Sum('product__store_price'))
-    
+    @property
+    def calculate_total_order_price(self):
+        return self.products.aggregate(Sum('order_price'))
+
+    @property
+    def get_item_quantity(self):
+        return self.products.aggregate(Sum('qty'))
+
+
     def save(self, *args, **kwargs):
         if not self.key:
                 self.key = generate_order_key()
+        print(self.calculate_total_order_price['order_price__sum'])
+        self.order_price = self.calculate_total_order_price['order_price__sum']
+
         super().save(*args, **kwargs)
     
-    def get_item_quantity(self):
-        order_id = Order.objects.filter(key=self.key)
-        
-        return len(self.products)

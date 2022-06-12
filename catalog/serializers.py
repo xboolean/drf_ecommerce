@@ -55,4 +55,5 @@ class ProductOnOrderSerializer(ModelSerializer):
 
     class Meta:
         model = ProductOnOrder
-        fields = ('product', 'qty')
+        fields = ('product', 'qty', 'order_price',)
+        read_only_fields= ('order_price',)
