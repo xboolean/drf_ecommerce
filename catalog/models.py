@@ -13,7 +13,9 @@ class Product(BaseModel):
 
     def __str__(self):
         return self.name
-    
+
+
+
 class ProductUnit(BaseModel):
     sku = models.CharField(max_length=8, unique=True)
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='products')
@@ -41,7 +43,7 @@ class ProductOnOrder(models.Model):
         super().save(*args, **kwargs)
 
 class Stock(models.Model):
-    product = models.OneToOneField(ProductUnit, on_delete=models.CASCADE, unique=True)
+    product = models.OneToOneField(ProductUnit, related_name='warehouse', on_delete=models.CASCADE, unique=True)
     units_remain = models.PositiveSmallIntegerField(default=0)
     units_sold = models.PositiveSmallIntegerField(default=0)
 

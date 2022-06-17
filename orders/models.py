@@ -45,8 +45,6 @@ class Order(BaseModel):
     def save(self, *args, **kwargs):
         if not self.key:
                 self.key = generate_order_key()
-        print(self.calculate_total_order_price['order_price__sum'])
-        self.order_price = self.calculate_total_order_price['order_price__sum']
-
         super().save(*args, **kwargs)
+        
     
