@@ -23,6 +23,11 @@ def generate_order_key():
     string_part = random.choices(string.ascii_uppercase, k=3)
     return str(number_part) + "".join(string_part)
 
+class OrderManager(models.Manager):
+    def create(self, *args, **kwargs):
+        kwargs["key"] = generate_order_key()
+        return super().create(*args, **kwargs)
+
 class Order(BaseModel):
     key = models.CharField(max_length=6, unique=True)
     customer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="orders")
@@ -41,10 +46,6 @@ class Order(BaseModel):
     def get_item_quantity(self):
         return self.products.aggregate(Sum('qty'))
 
-
-    def save(self, *args, **kwargs):
-        if not self.key:
-                self.key = generate_order_key()
-        super().save(*args, **kwargs)
+    objects = OrderManager()
         
     

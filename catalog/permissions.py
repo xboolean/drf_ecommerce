@@ -1,4 +1,3 @@
-from requests import request
 from rest_framework import permissions
 
 class ProductPermission(permissions.BasePermission):

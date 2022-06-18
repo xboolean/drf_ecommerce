@@ -1,8 +1,8 @@
 from rest_framework import viewsets, generics
 from rest_framework.mixins import ListModelMixin, UpdateModelMixin
 from rest_framework.permissions import IsAdminUser
-from .serializers import ProductSerializer, ProductUnitSerializer, CategorySerializer, BrandSerializer, StockSerializer
-from .models import Product, ProductUnit, Brand, Category, Stock
+from .serializers import ProductOnOrderSerializer, ProductSerializer, ProductUnitSerializer, CategorySerializer, BrandSerializer, StockSerializer
+from .models import Product, ProductOnOrder, ProductUnit, Brand, Category, Stock
 from .permissions import ProductPermission, AdminOrReadOnly
 
 class BrandCreateView(generics.ListCreateAPIView):
@@ -49,3 +49,4 @@ class ProductUnitViewSet(viewsets.ModelViewSet):
             return ProductUnit.objects.filter(is_active=True)
         else:
             return super().get_queryset()
+

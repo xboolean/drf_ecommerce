@@ -8,7 +8,6 @@ app_name = 'products'
 router = DefaultRouter()
 router.register("product", ProductViewSet, basename="product")
 router.register("product_sku", ProductUnitViewSet, basename="product_unit")
-router.register("stock", StockViewSet, basename="stock")
 
 urlpatterns = router.urls
 

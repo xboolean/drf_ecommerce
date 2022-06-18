@@ -1,4 +1,3 @@
-from cgitb import reset
 from rest_framework import permissions
 
 
@@ -6,7 +5,7 @@ class UsersPermission(permissions.BasePermission):
 
     def has_permission(self, request, view):
         if view.action == 'list':
-            return request.user.is_authenticated and request.user.is_admin
+            return request.user.is_authenticated and request.user.is_superuser
         if view.action == 'create':
             return True
         elif view.action in ['retrieve', 'update', 'partial_update', 'destroy']:
@@ -17,10 +16,10 @@ class UsersPermission(permissions.BasePermission):
         if not request.user.is_authenticated:
             return False
         if view.action == 'retrieve':
-            return obj == request.user or request.user.is_admin
+            return obj == request.user or request.user.is_superuser
         elif view.action in ['update', 'partial_update']:
-            return obj == request.user or request.user.is_admin
+            return obj == request.user or request.user.is_superuser
         elif view.action == 'destroy':
-            return request.user.is_admin
+            return request.user.is_superuser
         else:
             return False
