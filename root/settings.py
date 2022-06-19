@@ -52,6 +52,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'base.middleware.LoggingMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -198,3 +199,6 @@ REST_FRAMEWORK = {
         # 'base.permissions.IsOwnerOrReadOnly'
     )
 }
+
+MODELS_LOGGING_FILE_SIZE = "10mb"
+SERIALIZERS_LOGGING_FILE_SIZE = "10mb"

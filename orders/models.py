@@ -33,7 +33,7 @@ class Order(BaseModel):
     customer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="orders")
     order_price = models.IntegerField(blank=True, null=True)
     order_status = models.CharField(max_length=30, choices=ORDER_STATUS, default=1)
-    payment_status = models.CharField(max_length=20, choices=PAYMENT_STATUS)
+    payment_status = models.CharField(max_length=20, choices=PAYMENT_STATUS, default=1)
 
     def __str__(self):
         return self.key
@@ -43,9 +43,13 @@ class Order(BaseModel):
         return self.products.aggregate(Sum('order_price'))
 
     @property
+    def calculate_total_revenue(self):
+        return self.aggregate(Sum('order_price'))
+
+    @property
     def get_item_quantity(self):
         return self.products.aggregate(Sum('qty'))
 
     objects = OrderManager()
-        
+
     
