@@ -1,5 +1,6 @@
 import jwt
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.views import TokenObtainPairView
 from django.conf import settings
 from django.db import transaction
 from rest_framework.viewsets import ModelViewSet
@@ -8,7 +9,7 @@ from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
-from .serializers import AccountConfirmationSerializer, UserSerializer
+from .serializers import AccountConfirmationSerializer, UserSerializer, TokenSerializer
 from .models import User
 from .permissions import UsersPermission
 from .utils import Util
@@ -49,3 +50,6 @@ class VerifyEmail(GenericAPIView):
             return Response({'error': 'Token has been expired!'}, status=status.HTTP_400_BAD_REQUEST)
         except jwt.DecodeError as e:
             return Response({'error': 'Invalid token has been passed!'}, status=status.HTTP_400_BAD_REQUEST)
+
+class TokenCreateView(TokenObtainPairView):
+    serializer_class = TokenSerializer

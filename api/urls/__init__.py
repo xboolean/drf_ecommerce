@@ -1,7 +1,6 @@
 from argparse import Namespace
 from unicodedata import name
 from django.urls import include, path
-from users.views import RegisterAPIView
 
 app_name = "api"
 
@@ -12,6 +11,4 @@ urlpatterns = [
     path("oders/", include("api.urls.orders", namespace="orders")),
     path("promotion/", include("api.urls.promotion", namespace="promotion")),
     path("users/", include("api.urls.users", namespace="users")),
-    path("register/", RegisterAPIView.as_view(), name="user-register"),
-
 ]
