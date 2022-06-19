@@ -1,0 +1,4 @@
+{% autoescape off %}
+Hi {{ user.fullname }},
+Please click on the link to confirm your registration, http://{{ domain }}/account-confirm/{{uid}}/{{token}}
+{% endautoescape %}

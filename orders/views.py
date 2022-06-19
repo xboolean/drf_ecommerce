@@ -17,6 +17,3 @@ class OrderViewSet(viewsets.ModelViewSet):
         else:
             instance.order_price = instance.calculate_total_order_price['order_price__sum']
         instance.save(update_fields=['order_price'])
-
-
-    

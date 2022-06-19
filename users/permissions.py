@@ -14,7 +14,7 @@ class UsersPermission(permissions.BasePermission):
 
     def has_object_permission(self, request, view, obj):
         if not request.user.is_authenticated:
-            return False
+            return True
         if view.action == 'retrieve':
             return obj == request.user or request.user.is_superuser
         elif view.action in ['update', 'partial_update']:

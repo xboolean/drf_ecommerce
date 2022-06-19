@@ -17,6 +17,7 @@ class UserManager(BaseUserManager):
         user = self.create_user(email=email, password=password, **kwargs)
         user.is_staff = True
         user.is_superuser = True
+        user.is_active = True
         user.save(using = self._db)
         return user
 
@@ -25,7 +26,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     email = models.CharField(max_length=50, verbose_name="Адрес электронной почты.", unique = True)
     full_name = models.CharField(max_length = 100, verbose_name = "ФИО пользователя.")
     is_staff = models.BooleanField(default=False)
-    is_active = models.BooleanField(default=True)
+    is_active = models.BooleanField(default=False)
     date_joined = models.DateTimeField(auto_now_add=True)
     USERNAME_FIELD = 'email'
     objects = UserManager()

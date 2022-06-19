@@ -67,7 +67,7 @@ ROOT_URLCONF = 'root.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -117,6 +117,26 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = os.environ.get("EMAIL_USER")
+EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_PASSWORD")
+EMAIL_PORT = 587
+
+
+EMAIL_MESSAGES = {
+    "registration": {
+        "subject": "Ecommerce. Подтверждение учетной записи",
+        "message": "Здравствуйте!\
+    Ваш аккаунт на drf-ecommerce успешно создан!\
+    Для подтверждения Вашей учетной записи пройдите по указанной ссылке: {link}"
+    },
+    "reset-password": {
+        "subject": "Ecommerce. Восстановление пароля.",
+        "message": "Чтобы восстановить доступ к вашей учетной записи перейдите по указанной ссылке: {link}"
+    }
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
