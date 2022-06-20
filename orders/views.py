@@ -5,6 +5,9 @@ from .models import Order
 from django.db import transaction
 
 class OrderViewSet(viewsets.ModelViewSet):
+    """
+    Viewset to make an order by customer.
+    """
     permission_classes = [OrderPermission]
     serializer_class = CustomerOrderSerializer
     queryset = Order.objects.all()

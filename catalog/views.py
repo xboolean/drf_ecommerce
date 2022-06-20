@@ -16,6 +16,9 @@ class CategoryCreateView(generics.ListCreateAPIView):
     permission_classes = [AdminOrReadOnly]
 
 class StockViewSet(ListModelMixin, UpdateModelMixin, viewsets.GenericViewSet):
+    """
+    Viwset for managing leftovers in warehouse.
+    """
     queryset = Stock.objects.all()
     serializer_class = StockSerializer
     permission_classes = [IsAdminUser]
@@ -28,6 +31,9 @@ class StockViewSet(ListModelMixin, UpdateModelMixin, viewsets.GenericViewSet):
 
 
 class ProductViewSet(viewsets.ModelViewSet):
+    """
+    Viewset for creating products.
+    """
     permission_classes = [ProductPermission]
     serializer_class = ProductSerializer
     queryset = Product.objects.all()
@@ -40,6 +46,9 @@ class ProductViewSet(viewsets.ModelViewSet):
     
 
 class ProductUnitViewSet(viewsets.ModelViewSet):
+    """
+    Viewset for creating product's units.
+    """
     permission_classes = [ProductPermission]
     serializer_class = ProductUnitSerializer
     queryset = ProductUnit.objects.all()

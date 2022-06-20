@@ -21,14 +21,14 @@ from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from rest_framework.authtoken.views import obtain_auth_token
+from upload.views import image_upload
 
 schema_view = get_schema_view(
    openapi.Info(
-      title="Snippets API",
+      title="E-commerce API",
       default_version='v1',
-      description="Test description",
-      terms_of_service="https://www.google.com/policies/terms/",
-      contact=openapi.Contact(email="contact@snippets.local"),
+      description="E-commerce platform built with Python",
+      contact=openapi.Contact(email="roman.fb@yandex.ru"),
       license=openapi.License(name="BSD License"),
    ),
    public=True,
@@ -36,6 +36,7 @@ schema_view = get_schema_view(
 )
 
 urlpatterns = [
+    path("", image_upload, name="upload"),
     path('admin/', admin.site.urls),
     path('api/v1/', include('api.urls', namespace='api')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

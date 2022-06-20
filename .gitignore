@@ -15,7 +15,8 @@ media
 .idea
 /logs/
 /scripts/
-.env
+.env.prod
+.env.prod.db
 
 /base/management/
 
