@@ -1,3 +1,5 @@
 venv
-drf-e.jpg
+__pycache__
+*.pyc
 README.md
+img

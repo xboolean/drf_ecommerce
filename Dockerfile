@@ -1,9 +1,10 @@
-FROM python:3.10.1-slim-buster
+FROM python:3.10.5-slim-buster
 
-WORKDIR /usr/src/app
+WORKDIR /app
 
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
+ENV DEBUG 0
 
 RUN apt-get -y update \
   && apt-get -y install netcat gcc \ 
@@ -11,13 +12,12 @@ RUN apt-get -y update \
   && apt-get clean
 
 RUN pip install --upgrade pip
-COPY ./requirements.txt /usr/src/app/requirements.txt
+COPY ./requirements.txt .
 RUN pip install --verbose -r requirements.txt
 
-COPY ./entrypoint.sh /usr/src/app/
-RUN sed -i 's/\r$//g' /usr/src/app/entrypoint.sh
-RUN chmod +x /usr/src/app/entrypoint.sh
+COPY . .
+RUN python manage.py collectstatic --noinput
 
-# CMD ["uwsgi", "--http", ":8080", "--ini", "./uwsgi/uwsgi.ini"]
-COPY . /usr/src/app/
-ENTRYPOINT ["/usr/src/app/entrypoint.sh"]
+RUN adduser --system --group nruser
+USER nruser
+
