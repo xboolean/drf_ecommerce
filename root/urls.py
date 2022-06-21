@@ -21,7 +21,6 @@ from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from rest_framework.authtoken.views import obtain_auth_token
-from upload.views import image_upload
 
 schema_view = get_schema_view(
    openapi.Info(
@@ -36,7 +35,6 @@ schema_view = get_schema_view(
 )
 
 urlpatterns = [
-    path("", image_upload, name="upload"),
     path('admin/', admin.site.urls),
     path('api/v1/', include('api.urls', namespace='api')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

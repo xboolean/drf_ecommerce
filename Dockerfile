@@ -6,18 +6,19 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 ENV DEBUG 0
 
-RUN apt-get -y update \
-  && apt-get -y install netcat gcc \ 
-  && apt-get -y install nano \
-  && apt-get clean
+RUN apt-get update -qq && apt-get install -y postgresql-client
 
 RUN pip install --upgrade pip
 COPY ./requirements.txt .
 RUN pip install --verbose -r requirements.txt
 
 COPY . .
+
 RUN python manage.py collectstatic --noinput
 
 RUN adduser --system --group nruser
 USER nruser
 
+EXPOSE 8000
+
+CMD ["gunicorn", "--bind", ":8000", "--workers", "3", "core.wsgi:application"]
