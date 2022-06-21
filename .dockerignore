@@ -4,3 +4,4 @@ __pycache__
 README.md
 img
 heroku.yml
+docker-compose.yml

@@ -30,7 +30,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = int(os.environ.get("DEBUG", 1))
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'powerful-fortress-39470.herokuapp.com']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'easy-ecomm.herokuapp.com']
 
 
 # Application definition
@@ -56,7 +56,6 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    'base.middleware.LoggingMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware', 
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -214,6 +213,7 @@ SWAGGER_SETTINGS = {
             }
         }
     }
+
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (

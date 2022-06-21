@@ -4,7 +4,7 @@ WORKDIR /app
 
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
-ENV DEBUG 0
+ENV DEBUG 1
 
 RUN apt-get update -qq && apt-get install -y postgresql-client
 
@@ -19,6 +19,4 @@ RUN python manage.py collectstatic --noinput
 RUN adduser --system --group nruser
 USER nruser
 
-EXPOSE 8000
-
-CMD ["gunicorn", "--bind", ":8000", "--workers", "3", "core.wsgi:application"]
+CMD gunicorn root.wsgi:application --bind 0.0.0.0:$PORT
