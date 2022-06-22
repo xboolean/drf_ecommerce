@@ -32,7 +32,7 @@ class CouponManager(models.Manager):
 class Coupon(models.Model):
     code = models.CharField(max_length=12)
     discount = models.FloatField(validators=(MaxValueValidator(100.0), MinValueValidator(0.0)))
-    customer = models.ManyToManyField(settings.AUTH_USER_MODEL, through='ClaimedCoupon', null=True, blank=True)
+    customer = models.ManyToManyField(settings.AUTH_USER_MODEL, through='ClaimedCoupon', blank=True)
     is_active = models.BooleanField()
     objects = CouponManager()
 

@@ -4,7 +4,7 @@ WORKDIR /app
 
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
-ENV DEBUG 1
+ENV DEBUG 0
 
 RUN apt-get update -qq && apt-get install -y postgresql-client
 

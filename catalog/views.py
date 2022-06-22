@@ -4,6 +4,7 @@ from rest_framework.permissions import IsAdminUser
 from .serializers import ProductOnOrderSerializer, ProductSerializer, ProductUnitSerializer, CategorySerializer, BrandSerializer, StockSerializer
 from .models import Product, ProductOnOrder, ProductUnit, Brand, Category, Stock
 from .permissions import ProductPermission, AdminOrReadOnly
+from drf_yasg.utils import swagger_auto_schema
 
 class BrandCreateView(generics.ListCreateAPIView):
     queryset = Brand.objects.all()
@@ -29,7 +30,6 @@ class StockViewSet(ListModelMixin, UpdateModelMixin, viewsets.GenericViewSet):
     def put(self, request, *args, **kwargs):
         return self.update(request, *args, **kwargs)
 
-
 class ProductViewSet(viewsets.ModelViewSet):
     """
     Viewset for creating products.
@@ -44,7 +44,22 @@ class ProductViewSet(viewsets.ModelViewSet):
         else:
             return super().get_queryset()
     
-
+    @swagger_auto_schema(auto_schema=None)
+    def retrieve(self, request, *args, **kwargs):
+        return super().retrieve(request, *args, **kwargs)
+    
+    @swagger_auto_schema(auto_schema=None)
+    def update(self, request, *args, **kwargs):
+        return super().update(request, *args, **kwargs)
+    
+    @swagger_auto_schema(auto_schema=None)
+    def destroy(self, request, *args, **kwargs):
+        return super().destroy(request, *args, **kwargs)
+    
+    @swagger_auto_schema(auto_schema=None)
+    def partial_update(self, request, *args, **kwargs):
+        return super().partial_update(request, *args, **kwargs)
+    
 class ProductUnitViewSet(viewsets.ModelViewSet):
     """
     Viewset for creating product's units.
@@ -58,4 +73,20 @@ class ProductUnitViewSet(viewsets.ModelViewSet):
             return ProductUnit.objects.filter(is_active=True)
         else:
             return super().get_queryset()
+    
+    @swagger_auto_schema(auto_schema=None)
+    def retrieve(self, request, *args, **kwargs):
+        return super().retrieve(request, *args, **kwargs)
+    
+    @swagger_auto_schema(auto_schema=None)
+    def update(self, request, *args, **kwargs):
+        return super().update(request, *args, **kwargs)
+    
+    @swagger_auto_schema(auto_schema=None)
+    def destroy(self, request, *args, **kwargs):
+        return super().destroy(request, *args, **kwargs)
+    
+    @swagger_auto_schema(auto_schema=None)
+    def partial_update(self, request, *args, **kwargs):
+        return super().partial_update(request, *args, **kwargs)
 

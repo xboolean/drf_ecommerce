@@ -1,5 +1,3 @@
-from argparse import Namespace
-from unicodedata import name
 from django.urls import include, path
 
 app_name = "api"

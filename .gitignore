@@ -17,6 +17,7 @@ media
 /scripts/
 .env.prod
 .env.prod.db
+.env
 
 /base/management/
 

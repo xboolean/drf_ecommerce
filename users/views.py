@@ -31,6 +31,18 @@ class UserViewSet(ModelViewSet):
         data = {'mail_subject': settings.EMAIL_MESSAGES['registration']['subject'], 'to_email': account.email, 'mail_body': body}
         Util.send_email(data)
         return Response(data=serializer.data, status=status.HTTP_201_CREATED)
+    
+    @swagger_auto_schema(auto_schema=None)
+    def update(self, request, *args, **kwargs):
+        return super().update(request, *args, **kwargs)
+    
+    @swagger_auto_schema(auto_schema=None)
+    def partial_update(self, request, *args, **kwargs):
+        return super().partial_update(request, *args, **kwargs)
+    
+    @swagger_auto_schema(auto_schema=None)
+    def destroy(self, request, *args, **kwargs):
+        return super().destroy(request, *args, **kwargs)
 
 class VerifyEmail(GenericAPIView):
     serializer_class = AccountConfirmationSerializer
