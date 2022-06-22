@@ -4,7 +4,6 @@ from .permissions import OrderPermission
 from .models import Order
 from django.db import transaction
 from drf_yasg.utils import swagger_auto_schema
-from rest_framework.decorators import action 
 
 class OrderViewSet(viewsets.ModelViewSet):
     """
@@ -22,10 +21,6 @@ class OrderViewSet(viewsets.ModelViewSet):
         else:
             instance.order_price = instance.calculate_total_order_price['order_price__sum']
         instance.save(update_fields=['order_price'])
-    
-    @swagger_auto_schema(auto_schema=None)
-    def list(self, request, *args, **kwargs):
-        super().list(*args, **kwargs)
     
     @swagger_auto_schema(auto_schema=None)
     def destroy(self, request, *args, **kwargs):

@@ -1,5 +1,5 @@
 from rest_framework.viewsets import ModelViewSet
-from .serializers import ProductOnPromo, CouponSerializer, PromotionSerializer
+from .serializers import CouponSerializer, PromotionSerializer
 from .models import Promotion, Coupon
 from .permissions import PromotionPermission
 from drf_yasg.utils import swagger_auto_schema

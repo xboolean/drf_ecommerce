@@ -1,5 +1,5 @@
 from rest_framework.serializers import ModelSerializer
-from .models import ClaimedCoupon, Coupon, ProductOnPromo, Promotion
+from .models import Coupon, Promotion
 
 class CouponSerializer(ModelSerializer):
     class Meta:

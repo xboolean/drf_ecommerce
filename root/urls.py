@@ -28,10 +28,9 @@ schema_view = get_schema_view(
       default_version='v1',
       description="E-commerce platform built with Python",
       contact=openapi.Contact(email="roman.fb@yandex.ru"),
-      license=openapi.License(name="BSD License"),
    ),
    public=True,
-#    url="http://easy-ecomm.herokuapp.com/api/v1/",
+   url="https://easy-ecomm.herokuapp.com/api/v1/",
    permission_classes=[permissions.AllowAny],
 )
 

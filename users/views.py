@@ -1,20 +1,18 @@
 import jwt
-from rest_framework_simplejwt.tokens import RefreshToken
-from rest_framework_simplejwt.views import TokenObtainPairView
 from django.conf import settings
 from django.db import transaction
+from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.generics import GenericAPIView
 from rest_framework import status
-from rest_framework.decorators import action
-from rest_framework.permissions import AllowAny
-from rest_framework.response import Response
+from drf_yasg.utils import swagger_auto_schema
+from drf_yasg import openapi
 from .serializers import AccountConfirmationSerializer, UserSerializer, TokenSerializer
 from .models import User
 from .permissions import UsersPermission
 from .utils import Util
-from drf_yasg.utils import swagger_auto_schema
-from drf_yasg import openapi
 
 class UserViewSet(ModelViewSet):
     permission_classes = [UsersPermission]

@@ -1,7 +1,6 @@
 from django.db import models
 from base.models import BaseModel
 from orders.models import Order
-from django.conf import settings
 
 class Product(BaseModel):
     name = models.CharField(max_length=50)
@@ -44,8 +43,8 @@ class ProductOnOrder(models.Model):
 
 class Stock(models.Model):
     product = models.OneToOneField(ProductUnit, related_name='warehouse', on_delete=models.CASCADE, unique=True)
-    units_remain = models.PositiveSmallIntegerField(default=0)
-    units_sold = models.PositiveSmallIntegerField(default=0)
+    units_remain = models.PositiveSmallIntegerField(default=5)
+    units_sold = models.PositiveSmallIntegerField(default=5)
 
     def __str__(self):
         return str(self.product)

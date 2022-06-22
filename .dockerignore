@@ -5,3 +5,4 @@ README.md
 img
 heroku.yml
 Dockerfile
+docker-compose.yml

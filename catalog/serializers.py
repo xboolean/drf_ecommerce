@@ -2,7 +2,6 @@ from django.forms import CharField
 from rest_framework.generics import get_object_or_404
 from rest_framework.serializers import ModelSerializer
 from rest_framework import serializers
-from orders.models import Order
 from .models import Product, ProductUnit, ProductOnOrder, Brand, Category, Stock
 
 class CategorySerializer(ModelSerializer):
