@@ -1,10 +1,12 @@
-from rest_framework import viewsets, generics
+from rest_framework import viewsets, generics, status
 from rest_framework.mixins import ListModelMixin, UpdateModelMixin
 from rest_framework.permissions import IsAdminUser
 from .serializers import ProductSerializer, ProductUnitSerializer, CategorySerializer, BrandSerializer, StockSerializer
 from .models import Product, ProductUnit, Brand, Category, Stock
 from .permissions import ProductPermission, AdminOrReadOnly
 from drf_yasg.utils import swagger_auto_schema
+from drf_yasg import openapi
+from drf_yasg.inspectors import FieldInspector
 
 class BrandCreateView(generics.ListCreateAPIView):
     queryset = Brand.objects.all()
@@ -24,11 +26,6 @@ class StockViewSet(ListModelMixin, UpdateModelMixin, viewsets.GenericViewSet):
     serializer_class = StockSerializer
     permission_classes = [IsAdminUser]
 
-    def get(self, request, *args, **kwargs):
-        return self.list(request, *args, **kwargs)
-
-    def put(self, request, *args, **kwargs):
-        return self.update(request, *args, **kwargs)
 
 class ProductViewSet(viewsets.ModelViewSet):
     """

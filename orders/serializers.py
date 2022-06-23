@@ -16,8 +16,8 @@ class CustomerOrderSerializer(serializers.ModelSerializer):
     coupon = serializers.SlugRelatedField(slug_field='code', queryset=Coupon.objects.all(), source='coupon.coupon', required=False, allow_null=True)
     class Meta:
         model = Order
-        fields = '__all__'
-        read_only_fields = ('customer', 'qty', 'key', 'order_status', 'order_price', 'payment_status', 'coupon')
+        fields = ['products', 'key', 'order_price', 'coupon']
+        read_only_fields = ('key', 'order_price', 'coupon')
         extra_kwargs = {'coupon': {}}
 
     @transaction.atomic

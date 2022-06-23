@@ -9,14 +9,14 @@ class CategorySerializer(ModelSerializer):
 
     class Meta:
         model = Category
-        fields = "__all__"
+        fields = ["name", "products"]
 
 class BrandSerializer(ModelSerializer):
     products = serializers.SlugRelatedField(many=True, read_only=True, slug_field='name')
 
     class Meta:
         model = Brand
-        fields = "__all__"
+        fields = ['name', 'products']
 
 class StockSerializer(ModelSerializer):
     product = serializers.SlugRelatedField(read_only=True, slug_field='sku')
@@ -33,7 +33,7 @@ class ProductSerializer(ModelSerializer):
 
     class Meta:
         model = Product
-        fields = ('id', 'name', 'description', 'brand', 'category', 'is_active', 'created_at', 'updated_at')
+        fields = ('name', 'description', 'brand', 'category')
 
     def create(self, validated_data):
         brand = Brand.objects.get(name=validated_data.pop('brand'))
@@ -46,7 +46,7 @@ class ProductUnitSerializer(ModelSerializer):
 
     class Meta:
         model = ProductUnit
-        fields = '__all__'
+        fields = ['product', 'sale_price', 'sku', 'store_price']
         read_only_fields = ('sale_price',)
     
     def create(self, validated_data):
