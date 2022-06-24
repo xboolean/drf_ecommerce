@@ -37,3 +37,4 @@ tomli==2.0.1
 uritemplate==4.1.1
 urllib3==1.26.9
 whitenoise==6.2.0
+faker

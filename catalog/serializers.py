@@ -16,7 +16,7 @@ class BrandSerializer(ModelSerializer):
 
     class Meta:
         model = Brand
-        fields = ['name', 'products']
+        fields = ["name", "products"]
 
 class StockSerializer(ModelSerializer):
     product = serializers.SlugRelatedField(read_only=True, slug_field='sku')
@@ -24,7 +24,7 @@ class StockSerializer(ModelSerializer):
     class Meta:
         model = Stock
         fields = "__all__"
-        read_only_fields = ('product',)
+        read_only_fields = ['product']
 
 
 class ProductSerializer(ModelSerializer):
@@ -33,7 +33,7 @@ class ProductSerializer(ModelSerializer):
 
     class Meta:
         model = Product
-        fields = ('name', 'description', 'brand', 'category')
+        fields = ['name', 'brand', 'category']
 
     def create(self, validated_data):
         brand = Brand.objects.get(name=validated_data.pop('brand'))
@@ -46,8 +46,8 @@ class ProductUnitSerializer(ModelSerializer):
 
     class Meta:
         model = ProductUnit
-        fields = ['product', 'sale_price', 'sku', 'store_price']
-        read_only_fields = ('sale_price',)
+        fields = ['product', 'sale_price', 'sku', 'store_price', 'description']
+        read_only_fields = ['sale_price']
     
     def create(self, validated_data):
         product = get_object_or_404(Product, name=validated_data.pop('product'))
@@ -59,8 +59,8 @@ class ProductOnOrderSerializer(ModelSerializer):
 
     class Meta:
         model = ProductOnOrder
-        fields = ('product', 'qty', 'order_price',)
-        read_only_fields= ('order_price',)
+        fields = ['product', 'qty', 'order_price']
+        read_only_fields= ['order_price']
 
     def validate(self, attrs):
         item, qty = attrs['product'], attrs['qty']

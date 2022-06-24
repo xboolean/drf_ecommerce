@@ -20,7 +20,7 @@ class CategoryCreateView(generics.ListCreateAPIView):
 
 class StockViewSet(ListModelMixin, UpdateModelMixin, viewsets.GenericViewSet):
     """
-    Viwset for managing leftovers in warehouse.
+    Viewset for managing leftovers in warehouse.
     """
     queryset = Stock.objects.all()
     serializer_class = StockSerializer

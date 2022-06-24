@@ -7,8 +7,8 @@ class InventoryAdmin(admin.ModelAdmin):
 
 class ProductAdmin(admin.ModelAdmin):
     model = models.Product
-    prepopulated_fields = {"slug": ("name",)}
-    list_display = ('name', 'category', 'brand', 'is_active')
+    # prepopulated_fields = {"slug": ("name",)}
+    list_display = ('category', 'brand', 'is_active')
 
 class ProductUnitAdmin(admin.ModelAdmin):
     model = models.ProductUnit
