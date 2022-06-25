@@ -30,7 +30,7 @@ schema_view = get_schema_view(
       contact=openapi.Contact(email="roman.fb@yandex.ru"),
    ),
    public=True,
-   url="https://easy-ecomm.herokuapp.com/api/v1/",
+#    url="https://easy-ecomm.herokuapp.com/api/v1/",
    permission_classes=[permissions.AllowAny],
 )
 

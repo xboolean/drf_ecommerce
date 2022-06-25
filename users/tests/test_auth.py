@@ -1,4 +1,4 @@
-from django.test import TestCase, Client
+from django.test import TestCase
 from django.contrib.auth import get_user_model
 
 class TestUserManager(TestCase):
@@ -7,7 +7,7 @@ class TestUserManager(TestCase):
         User = get_user_model()
         user = User.objects.create_user(email='test@user.com', password='testpassword')
         self.assertEqual(user.email, 'test@user.com')
-        self.assertTrue(user.is_active, True)
+        self.assertFalse(user.is_active, False)
         self.assertFalse(user.is_staff, False)
     
     def test_create_superuser(self):

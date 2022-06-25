@@ -1,7 +1,7 @@
 from django.test import TestCase
-from django.conf import settings
 from django.contrib.auth import get_user_model
-from ..models import Product, ProductUnit, Category, Brand, Stock, ProductOnOrder
+from django.db.models import Sum
+from catalog.models import Product, ProductUnit, Category, Brand, Stock, ProductOnOrder
 from orders.models import Order
 
 User = get_user_model()
@@ -13,31 +13,23 @@ class OrderUseTestCase(TestCase):
             full_name="Евгений Марченко",
             password="test123",
         )
-        self.category = Category.objects.create(name="T-Shirt")
+        self.category = Category.objects.create(name="T-Shirt", type="Clothing")
         self.brand = Brand.objects.create(name="ASOS")
         self.product = Product.objects.create(
             name="Mickey Mouse T-Shirt",
-            description="Just regulat T-Shirt",
-            brand="ASOS",
-            category="T-Shirt",
+            brand=self.brand,
+            category=self.category,
         )
         self.product_unit = ProductUnit.objects.create(
-            sku="RU539RUR",
+            sku="RU539R",
             product=self.product,
-            store_price="1490"
+            description="boilerplate text",
+            store_price=1490
         )
         self.product_unit_2 = ProductUnit.objects.create(
-            sku="RU540RUR",
+            sku="RU540R",
             product=self.product,
-            store_price="1490"
-        )
-        self.stock_p1 = Stock.objects.create(
-            product=self.product_unit,
-            units_remain = 5
-        )
-        self.stock_p2 = Stock.objects.create(
-            product=self.product_unit_2,
-            units_remain = 5
+            store_price=1490
         )
         self.order = Order.objects.create( 
             customer=self.user,
@@ -56,27 +48,30 @@ class OrderUseTestCase(TestCase):
         
     
     def test_category(self):
-        assert self.category == "T-Shirt"
+        assert self.category.name == "T-Shirt"
+    
+    def test_slug_correctness(self):
+        assert self.product.slug == 'mickey-mouse-t-shirt'
     
     def test_brand(self):
-        assert self.brand == "ASOS"
+        assert self.brand.name == "ASOS"
 
     def test_total_amount(self):
-        assert self.order.order_payment == 1490
+        assert self.order.order_status == 1
     
     def test_key_number(self):
-        assert self.key is not None
+        assert self.order.key is not None
 
-    def test_ordet_items(self):
-        assert len(self.products)==2
-    
-    def ordet_user(self):
+    def order_customer(self):
         assert self.customer.email == 'test@test.com'
     
     def test_total_order_price(self):
-        assert self.order_pice == 7450
+        assert self.order.calculate_total_order_price['order_price__sum'] == 7450
     
-    def test_items_quantity(self):
-        assert self.get_item_quantity == 5
+    def test_product_unit_item_in_order(self):
+        assert self.order.products.count() == 2
+
+    def test_items_quantity_in_order(self):
+        assert self.order.get_item_quantity == {'qty__sum': 5}
         
 
