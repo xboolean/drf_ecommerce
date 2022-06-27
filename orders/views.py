@@ -1,11 +1,11 @@
-from rest_framework import viewsets
+from base. views import UUIDModelViewSet
 from .serializers import CustomerOrderSerializer
 from .permissions import OrderPermission
 from .models import Order
 from django.db import transaction
 from drf_yasg.utils import swagger_auto_schema
 
-class OrderViewSet(viewsets.ModelViewSet):
+class OrderViewSet(UUIDModelViewSet):
     """
     Viewset to make an order by customer.
     """

@@ -1,11 +1,14 @@
 import random, string
+from base.models import M2MBaseModel, BaseModel
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
-from django.conf import settings
+from django.contrib.auth import get_user_model
 from catalog.models import Product
 from orders.models import Order
 
-class Promotion(models.Model):
+User = get_user_model()
+
+class Promotion(BaseModel):
     name = models.CharField(max_length=50)
     products = models.ManyToManyField(Product, through='ProductOnPromo')
     promo_discount = models.FloatField(validators=(MaxValueValidator(100.0), MinValueValidator(0.0)))
@@ -14,9 +17,9 @@ class Promotion(models.Model):
     is_active = models.BooleanField(default=False)
     is_scheduled = models.BooleanField(default=False)
 
-class ProductOnPromo(models.Model):
-    product_id = models.ForeignKey(Product, related_name='productOnPromotion', on_delete=models.PROTECT)
-    promotion_id = models.ForeignKey(Promotion, related_name="promotion", on_delete=models.CASCADE)
+class ProductOnPromo(M2MBaseModel):
+    product_id = models.ForeignKey(Product, to_field='uu_id', related_name='productOnPromotion', on_delete=models.PROTECT)
+    promotion_id = models.ForeignKey(Promotion, to_field='uu_id', related_name="promotion", on_delete=models.CASCADE)
 
 
 def generate_coupon_code():
@@ -29,17 +32,17 @@ class CouponManager(models.Manager):
         return super().create(*args, **kwargs)
 
 
-class Coupon(models.Model):
+class Coupon(BaseModel):
     code = models.CharField(max_length=12)
     discount = models.FloatField(validators=(MaxValueValidator(100.0), MinValueValidator(0.0)))
-    customer = models.ManyToManyField(settings.AUTH_USER_MODEL, through='ClaimedCoupon', blank=True)
+    customer = models.ManyToManyField(User, through='ClaimedCoupon', blank=True)
     is_active = models.BooleanField()
     objects = CouponManager()
 
-class ClaimedCoupon(models.Model):
-    customer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='coupons')
-    coupon = models.ForeignKey(Coupon, on_delete=models.CASCADE, related_name='claimed_by')
-    order = models.OneToOneField(Order, on_delete=models.PROTECT, related_name='coupon')
+class ClaimedCoupon(M2MBaseModel):
+    customer = models.ForeignKey(User, to_field='uu_id', on_delete=models.CASCADE, related_name='coupons')
+    coupon = models.ForeignKey(Coupon, to_field='uu_id', on_delete=models.CASCADE, related_name='claimed_by')
+    order = models.OneToOneField(Order, to_field='uu_id', on_delete=models.PROTECT, related_name='coupon')
     redemeed = models.BooleanField()
 
     @property

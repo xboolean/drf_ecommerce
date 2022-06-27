@@ -1,4 +1,4 @@
-from rest_framework import viewsets, generics, status
+from base.views import UUIDModelViewSet, UUIDListCreateAPIView, UUIDGenericViewSet
 from rest_framework.mixins import ListModelMixin, UpdateModelMixin
 from rest_framework.permissions import IsAdminUser
 from .serializers import ProductSerializer, ProductUnitSerializer, CategorySerializer, BrandSerializer, StockSerializer
@@ -8,17 +8,17 @@ from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 from drf_yasg.inspectors import FieldInspector
 
-class BrandCreateView(generics.ListCreateAPIView):
+class BrandCreateView(UUIDListCreateAPIView):
     queryset = Brand.objects.all()
     serializer_class = BrandSerializer
     permission_classes = [AdminOrReadOnly]
 
-class CategoryCreateView(generics.ListCreateAPIView):
+class CategoryCreateView(UUIDListCreateAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
     permission_classes = [AdminOrReadOnly]
 
-class StockViewSet(ListModelMixin, UpdateModelMixin, viewsets.GenericViewSet):
+class StockViewSet(ListModelMixin, UpdateModelMixin, UUIDGenericViewSet):
     """
     Viewset for managing leftovers in warehouse.
     """
@@ -27,7 +27,7 @@ class StockViewSet(ListModelMixin, UpdateModelMixin, viewsets.GenericViewSet):
     permission_classes = [IsAdminUser]
 
 
-class ProductViewSet(viewsets.ModelViewSet):
+class ProductViewSet(UUIDModelViewSet):
     """
     Viewset for creating products.
     """
@@ -57,7 +57,7 @@ class ProductViewSet(viewsets.ModelViewSet):
     def partial_update(self, request, *args, **kwargs):
         return super().partial_update(request, *args, **kwargs)
     
-class ProductUnitViewSet(viewsets.ModelViewSet):
+class ProductUnitViewSet(UUIDModelViewSet):
     """
     Viewset for creating product's units.
     """

@@ -1,10 +1,10 @@
-from rest_framework.viewsets import ModelViewSet
+from base.views import UUIDModelViewSet
 from .serializers import CouponSerializer, PromotionSerializer
 from .models import Promotion, Coupon
 from .permissions import PromotionPermission
 from drf_yasg.utils import swagger_auto_schema
 
-class PromotionViewSet(ModelViewSet):
+class PromotionViewSet(UUIDModelViewSet):
     serializer_class = PromotionSerializer
     permission_classes = [PromotionPermission]
     queryset = Promotion.objects.all()
@@ -25,7 +25,7 @@ class PromotionViewSet(ModelViewSet):
     def partial_update(self, request, *args, **kwargs):
         return super().partial_update(request, *args, **kwargs)
 
-class CouponViewset(ModelViewSet):
+class CouponViewset(UUIDModelViewSet):
     serializer_class = CouponSerializer
     permission_classes = [PromotionPermission]
     queryset = Coupon.objects.all()

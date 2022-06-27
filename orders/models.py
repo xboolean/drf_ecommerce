@@ -1,9 +1,8 @@
 import random, string
 from django.db import models
 from base.models import BaseModel
-from users.models import User
 from django.db.models import Sum
-from django.conf import settings
+from users.models import CustomerProfile
 
 PAYMENT_STATUS = (
     (1, "New order"),
@@ -30,7 +29,7 @@ class OrderManager(models.Manager):
 
 class Order(BaseModel):
     key = models.CharField(max_length=6, unique=True)
-    customer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="orders")
+    customer = models.ForeignKey(CustomerProfile, to_field='uu_id', on_delete=models.CASCADE, related_name="orders")
     order_price = models.IntegerField(blank=True, null=True)
     order_status = models.CharField(max_length=30, choices=ORDER_STATUS, default=1)
     payment_status = models.CharField(max_length=20, choices=PAYMENT_STATUS, default=1)
@@ -41,10 +40,6 @@ class Order(BaseModel):
     @property
     def calculate_total_order_price(self):
         return self.products.aggregate(Sum('order_price'))
-
-    @property
-    def calculate_total_revenue(self):
-        return self.aggregate(Sum('order_price'))
 
     @property
     def get_item_quantity(self):

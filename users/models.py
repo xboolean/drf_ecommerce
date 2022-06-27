@@ -1,8 +1,11 @@
 from django.db import models
+import uuid
 from django.utils import timezone
+from django.conf import settings
 from base.models import BaseModel
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.utils.translation import gettext_lazy as _
+from django.db.models import Sum
 
 class UserManager(BaseUserManager):
     def create_user(self, email, password=None, **kwargs):
@@ -10,6 +13,7 @@ class UserManager(BaseUserManager):
             raise ValueError(_('Users must have an email address'))
         user = self.model(email = email, **kwargs)
         user.set_password(password)
+
         user.save(using = self._db)
         return user
 
@@ -23,6 +27,7 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser, PermissionsMixin):
+    uu_id = models.UUIDField(default=uuid.uuid4,  editable=False, unique=True)
     email = models.CharField(max_length=50, verbose_name="Адрес электронной почты.", unique = True)
     full_name = models.CharField(max_length = 100, verbose_name = "ФИО пользователя.")
     is_staff = models.BooleanField(default=False)
@@ -41,3 +46,13 @@ class User(AbstractBaseUser, PermissionsMixin):
         if perm in self.get_all_permissions():
             return True
         return self.is_superuser
+
+class CustomerProfile(BaseModel):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, to_field='uu_id', on_delete=models.CASCADE, related_name='profile')
+    address = models.CharField(max_length=250)
+
+    @property
+    def cost_of_all_orders(self):
+        self.orders.aggregate(Sum('order_price'))
+
+

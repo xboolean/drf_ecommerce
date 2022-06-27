@@ -6,7 +6,6 @@ from .models import Stock, ProductUnit, Media
 def create_stock_model(sender: Model, instance: ProductUnit, created: bool, raw: bool, update_fields:dict, using: str, **kwargs):
     if created:
         Stock.objects.create(product=instance)
-        Media.objects.create(product=instance)
 
 
 
