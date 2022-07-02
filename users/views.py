@@ -12,7 +12,7 @@ from drf_yasg import openapi
 from .serializers import AccountConfirmationSerializer, UserSerializer, TokenSerializer
 from .models import User
 from .permissions import UsersPermission
-from .utils import Util
+from .tasks import send_email_task
 
 class UserViewSet(UUIDModelViewSet):
     permission_classes = [UsersPermission]
@@ -27,7 +27,7 @@ class UserViewSet(UUIDModelViewSet):
         body = f"Ваш аккаунт на drf-ecommerce успешно создан!\
         Для активации учетной записи укажите этот токен в документации по пути: 'auth/account-confirm/': {token}"
         data = {'mail_subject': settings.EMAIL_MESSAGES['registration']['subject'], 'to_email': account.email, 'mail_body': body}
-        Util.send_email(data)
+        send_email_task.delay(data)
         return Response(data=serializer.data, status=status.HTTP_201_CREATED)
     
     @swagger_auto_schema(auto_schema=None)

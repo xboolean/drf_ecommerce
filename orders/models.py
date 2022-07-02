@@ -23,6 +23,7 @@ def generate_order_key():
     return str(number_part) + "".join(string_part)
 
 class OrderManager(models.Manager):
+
     def create(self, *args, **kwargs):
         kwargs["key"] = generate_order_key()
         return super().create(*args, **kwargs)

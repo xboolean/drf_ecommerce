@@ -1,4 +1,5 @@
 import jwt
+from rest_framework.response import Response
 from rest_framework import serializers
 from .models import User, CustomerProfile
 from rest_framework.serializers import ValidationError
@@ -12,6 +13,7 @@ class AccountConfirmationSerializer(serializers.Serializer):
         fields = ['token']
 
 class UserSerializer(serializers.ModelSerializer):
+    email = serializers.EmailField()
     address = serializers.CharField(source='profile.address')
     class Meta:
         model = User
@@ -19,11 +21,10 @@ class UserSerializer(serializers.ModelSerializer):
         extra_kwargs = {'password': {'write_only': True}}
     
     def create(self, validated_data):
-        print(validated_data)
-        profile = validated_data.pop('profile')
+        address = validated_data.pop('profile')['address']
         user = User.objects.create_user(**validated_data)
         if getattr(user, 'is_staff') == False:
-            CustomerProfile.objects.create(user=user, address=profile['address'])
+            CustomerProfile.objects.create(user=user, address=address)
         return user
 
 class TokenSerializer(TokenObtainPairSerializer):
@@ -34,6 +35,4 @@ class TokenSerializer(TokenObtainPairSerializer):
         if not user.is_active:
             raise ValidationError("Your account has not been activated yet.")
         return data
-        
-        
         

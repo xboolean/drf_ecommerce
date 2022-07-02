@@ -13,6 +13,7 @@ import os
 from pathlib import Path
 from datetime import timedelta
 import dj_database_url
+from celery.schedules import crontab
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -22,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get("SECRET_KEY")
+SECRET_KEY = 'b$79h*)*znccpug^$p9a^x0g-ge()#17)b6#p)!_n%7wh&0tld'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = int(os.environ.get("DEBUG", 1))
@@ -228,6 +229,18 @@ REST_FRAMEWORK = {
         # 'base.permissions.IsOwnerOrReadOnly'
     )
 }
+
+
+CELERY_BROKER_URL = 'redis://redis:6379'
+CELERY_RESULT_BACKEND = 'redis://redis:6379'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = "Europe/Moscow"
+CELERY_TASK_TRACK_STARTED = True
+CELERY_TASK_TIME_LIMIT = 30*60
+
+CELERY_BEAT_SCHEDULE = {}
 
 MODELS_LOGGING_FILE_SIZE = "10mb"
 SERIALIZERS_LOGGING_FILE_SIZE = "10mb"

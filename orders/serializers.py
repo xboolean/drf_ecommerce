@@ -33,5 +33,5 @@ class CustomerOrderSerializer(serializers.ModelSerializer):
             else:
                 raise ValidationError("Your coupon is redemeed.")
         for product in products:
-            line = ProductOnOrder.objects.create(order=order, **product)
+            ProductOnOrder.objects.create(order=order, **product)
         return order
